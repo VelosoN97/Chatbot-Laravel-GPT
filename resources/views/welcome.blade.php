@@ -67,7 +67,7 @@
                 </div>
                 <div style="clear: both;"></div>
             </div>`);
-        $value = $('#input').val('');
+        
 
         $.ajax({
             type: 'post',
@@ -84,6 +84,7 @@
                     `+data+`
                 </div>
             </div>`)
+            $value = $('#input').val('');
             }
         })
     })
