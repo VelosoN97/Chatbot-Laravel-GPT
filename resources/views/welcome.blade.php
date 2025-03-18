@@ -38,20 +38,8 @@
         </div>
         <div style="background: #061128; height: 2px;"></div>
         <div id="content-box" class="container-fluid p-2" style="height: calc(100vh - 130px); overflow-y: scroll;">
-            <div class="mb-2">
-                <div class="float-right px-3 py-2" style="width: 270px; background: #4acfee; border-radius: 10px; float: right; font-size: 85%;">
-                    Hola a todos
-                </div>
-                <div style="clear: both;"></div>
-            </div>
-            <div class="d-flex mb-2">
-                <div class="mr-2" style="width: 45px; height: 45px;">
-                    <img src="https://cdn.iconscout.com/icon/free/png-256/free-avatar-icon-download-in-svg-png-gif-file-formats--user-boy-avatars-flat-icons-pack-people-456322.png" width="100%" height="100%" style="border-radius: 50px;">
-                </div>
-                <div class="text-white px-3 py-2" style="width: 270px; background: #13254b; border-radius: 10px; font-size: 85%;">
-                    Yo soy un chatbot
-                </div>
-            </div>
+            
+            
         </div>
         <div class="container-fluid w-100 px-3 py-2 d-flex" style="background: #131f45;height: 62px;">
             <div class="mr-2 pl-2" style="background: #ffffff1c;width: calc(100% - 45px);border-radius: 5px;">
@@ -73,6 +61,30 @@
     })
     $('#button-submit').on('click', function(){
         $value = $('#input').val();
-        alert($value);
+        $('#content-box').append(`<div class="mb-2">
+                <div class="float-right px-3 py-2" style="width: 270px; background: #4acfee; border-radius: 10px; float: right; font-size: 85%;">
+                    `+$value+`
+                </div>
+                <div style="clear: both;"></div>
+            </div>`);
+        $value = $('#input').val('');
+
+        $.ajax({
+            type: 'post',
+            url: '{{url('send')}}',
+            data: {
+                'input': $value
+            },
+            success: function(data){
+                $('#content-box').append(`<div class="d-flex mb-2">
+                <div class="mr-2" style="width: 45px; height: 45px;">
+                    <img src="https://cdn.iconscout.com/icon/free/png-256/free-avatar-icon-download-in-svg-png-gif-file-formats--user-boy-avatars-flat-icons-pack-people-456322.png" width="100%" height="100%" style="border-radius: 50px;">
+                </div>
+                <div class="text-white px-3 py-2" style="width: 270px; background: #13254b; border-radius: 10px; font-size: 85%;">
+                    `+data+`
+                </div>
+            </div>`)
+            }
+        })
     })
 </script>
