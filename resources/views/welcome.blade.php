@@ -7,6 +7,7 @@
     <title>Chatbot</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <meta name="csrf-token" content="{{csrf_token()}}">
 </head>
 <style>
         *{
@@ -58,34 +59,37 @@
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
-    })
-    $('#button-submit').on('click', function(){
-        $value = $('#input').val();
+    });
+
+    $('#button-submit').on('click', function() {
+        let value = $('#input').val();
+
+        // Mostrar el mensaje del usuario
         $('#content-box').append(`<div class="mb-2">
-                <div class="float-right px-3 py-2" style="width: 270px; background: #4acfee; border-radius: 10px; float: right; font-size: 85%;">
-                    `+$value+`
-                </div>
-                <div style="clear: both;"></div>
-            </div>`);
-        
+            <div class="float-right px-3 py-2" style="width: 270px; background: #4acfee; border-radius: 10px; float: right; font-size: 85%;">
+                ` + value + `
+            </div>
+            <div style="clear: both;"></div>
+        </div>`);
 
         $.ajax({
             type: 'post',
-            url: '{{url('send')}}',
+            url: '{{ url('send') }}',
             data: {
-                'input': $value
+                'message': value  // Cambiado de 'input' a 'message'
             },
-            success: function(data){
+            success: function(data) {
                 $('#content-box').append(`<div class="d-flex mb-2">
-                <div class="mr-2" style="width: 45px; height: 45px;">
-                    <img src="https://cdn.iconscout.com/icon/free/png-256/free-avatar-icon-download-in-svg-png-gif-file-formats--user-boy-avatars-flat-icons-pack-people-456322.png" width="100%" height="100%" style="border-radius: 50px;">
-                </div>
-                <div class="text-white px-3 py-2" style="width: 270px; background: #13254b; border-radius: 10px; font-size: 85%;">
-                    `+data+`
-                </div>
-            </div>`)
-            $value = $('#input').val('');
+                    <div class="mr-2" style="width: 45px; height: 45px;">
+                        <img src="https://cdn.iconscout.com/icon/free/png-256/free-avatar-icon-download-in-svg-png-gif-file-formats--user-boy-avatars-flat-icons-pack-people-456322.png" width="100%" height="100%" style="border-radius: 50px;">
+                    </div>
+                    <div class="text-white px-3 py-2" style="width: 270px; background: #13254b; border-radius: 10px; font-size: 85%;">
+                        ` + data.response + `
+                    </div>
+                </div>`);
+
+                $('#input').val('');
             }
-        })
-    })
+        });
+    });
 </script>
