@@ -71,4 +71,8 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     })
+    $('#button-submit').on('click', function(){
+        $value = $('#input').val();
+        alert($value);
+    })
 </script>
