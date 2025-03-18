@@ -6,5 +6,7 @@ use Illuminate\Http\Request;
 
 class ChatBotController extends Controller
 {
-    //
+    public function sendChat(Request $request){
+        dd($request);
+    }
 }
